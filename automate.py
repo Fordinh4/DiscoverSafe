@@ -1,14 +1,15 @@
 """Because my Spotify app is in development mode so it only accept up to 25 users"""
 import spotipy
 import datetime
+from setting import Setting
 from sqlalchemy import create_engine
+
+#Initialize the setting
+setting = Setting()
 
 def ValidateUser(refresh_token):
     # Check if the user have revoked my app yet, if yes then delete from the database
-    sp_oauth = spotipy.SpotifyOAuth(client_id="f68ecf6643c34970bedea990375c3bb7", 
-                                    client_secret="ff7e0fc2fc734208ac938458ef45d4a2", 
-                                    redirect_uri="http://fordinh.pythonanywhere.com/", 
-                                    scope='user-read-currently-playing user-library-read playlist-modify-private playlist-modify-public')
+    sp_oauth = CreateSpotifyOauth()
 
     try:
         token_info = sp_oauth.refresh_access_token(refresh_token)
@@ -17,15 +18,16 @@ def ValidateUser(refresh_token):
         # Check if the user have revoked my app yet, if yes then delete from the database
         if "revoked" in vars(e)["error_description"]:
             engine = create_engine("mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-            username="fordinh",
-            password="thesecretpasswords4.",
-            hostname="fordinh.mysql.pythonanywhere-services.com",
-            databasename="fordinh$Users_tokens"))
+                                    username=setting.dbUsername,
+                                    password=setting.dbPassword,
+                                    hostname=setting.dbHostname,
+                                    databasename=setting.dbName))
+
 
             with engine.connect() as connection:
                 # It automatically takes care of closing the connection once the block is exited
                 connection.execute(f'DELETE FROM users_tokens WHERE refresh_token = "{refresh_token}"')
-            
+
             return False
 
     else:
@@ -36,10 +38,10 @@ def ValidateUser(refresh_token):
 def ExtractDatabase():
     refresh_tokens = []
     engine = create_engine("mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    username="fordinh",
-    password="thesecretpasswords4.",
-    hostname="fordinh.mysql.pythonanywhere-services.com",
-    databasename="fordinh$Users_tokens"))
+                            username=setting.dbUsername,
+                            password=setting.dbPassword,
+                            hostname=setting.dbHostname,
+                            databasename=setting.dbName))
 
     with engine.connect() as connection:
         # It automatically takes care of closing the connection once the block is exited
@@ -53,10 +55,7 @@ def ExtractDatabase():
 
 def AddDiscoverWeekly(refresh_token):
     # Initialize SpotipyOAuth with your client_id, client_secret, and redirect_uri
-    sp_oauth = spotipy.SpotifyOAuth(client_id="f68ecf6643c34970bedea990375c3bb7", 
-                                    client_secret="ff7e0fc2fc734208ac938458ef45d4a2", 
-                                    redirect_uri="http://fordinh.pythonanywhere.com/", 
-                                    scope='user-read-currently-playing user-library-read playlist-modify-private playlist-modify-public')
+    sp_oauth = CreateSpotifyOauth()
 
     # Get a new access token using the refresh token
     token_info = sp_oauth.refresh_access_token(refresh_token)
@@ -65,7 +64,7 @@ def AddDiscoverWeekly(refresh_token):
     spotify = spotipy.Spotify(auth=token_info['access_token'])
 
 
-    # Searching for discover weekly 
+    # Searching for discover weekly
     DiscoverPlaylistId = None
     flag = False
     SearchPlaylists = spotify.search("discover weekly", limit= 10, offset= 0, type= "playlist")["playlists"]["items"]
@@ -80,7 +79,7 @@ def AddDiscoverWeekly(refresh_token):
         print("Discover weekly not found! -> If you r a new users, please listen to more songs :)")
 
     else:
-        # Create a new playlist to save all of Discover Weekly in one place! 
+        # Create a new playlist to save all of Discover Weekly in one place!
         CurrentPlaylists = spotify.current_user_playlists()["items"]
         user_id = spotify.current_user()["id"]
         SavedDiscoverPlaylistId = None
@@ -88,7 +87,7 @@ def AddDiscoverWeekly(refresh_token):
         for playlist in CurrentPlaylists:
             if playlist["name"] == "Saved Discover Weekly":
                 SavedDiscoverPlaylistId = playlist["id"]
-        
+
         if not SavedDiscoverPlaylistId:
             # If the new playlist not found, create a new one
             NewPlaylist = spotify.user_playlist_create(user_id,"Saved Discover Weekly", True)
@@ -101,26 +100,34 @@ def AddDiscoverWeekly(refresh_token):
         for song in discover_weekly_playlist['items']:
             song_uri= song['track']['uri']
             song_uris.append(song_uri)
-        
+
         # Add the tracks to the Saved Weekly playlist
         spotify.user_playlist_add_tracks(user_id, SavedDiscoverPlaylistId, song_uris, None)
 
         # Return a success message
         print('Discover Weekly songs added successfully!')
 
+def CreateSpotifyOauth():
+    return spotipy.SpotifyOAuth(client_id=setting.client_id,
+                                    client_secret=setting.client_secret,
+                                    redirect_uri=setting.redirect_uri,
+                                    scope=setting.scope)
+
 
 
 def main():
     today = datetime.date.today()
     weekday = today.weekday()
-    print(today.weekday())
 
-    # if weekday == 3:
-    #     refresh_tokens = ExtractDatabase()
-    #     for refresh_token in refresh_tokens:
-    #         if ValidateUser(refresh_token):
-    #             # If the user haven't revoked my app, proceed adding the songs
-    #             AddDiscoverWeekly(refresh_token)
+    if weekday == 3:
+        refresh_tokens = ExtractDatabase()
+        for refresh_token in refresh_tokens:
+            if ValidateUser(refresh_token):
+                # If the user haven't revoked my app, proceed adding the songs
+                AddDiscoverWeekly(refresh_token)
+    else:
+        print(f"Nuh Uh, today is {today} and not Tuesday!")
+
 
 
 if __name__ == '__main__':
