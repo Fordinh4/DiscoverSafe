@@ -2,13 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Discover Weekly</title>
+    <title>DiscoverSafe</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <!-- Icon credit: @aeribeibb on IG -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon/favicon-16x16.png">
+    <link rel="manifest" href="static/favicon/site.webmanifest">
+
+
+    <!-- CSS -->
+    <!-- for flask -->
+    <!-- <link rel = "stylesheet" type="text/css" href="{{ url_for('static',filename='sign_in_style.css') }}"> -->
+
+    <!-- for html live -->
+    <link rel="stylesheet" href="static/signed_in_style.css">
 </head>
+
 <body>
-    <h2>Hi {{ display_name }}, <small><a href="/sign_out">[sign out]</a></small></h2>
-    <a href ="/discover_weekly">Save Discover Weekly</a>
+    
+    <div class="navbar">
+        <div class="icon">
+            <img class="image" src="static/DiscoverSafe_Icon.png">
+        </div>
+
+        <div class="links">
+            <!-- TODO: After signing in then show the option to sign out -->
+            <a href='/sign_out'>Sign Out</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Support</a>
+        </div>
+    </div>
+
+    <div id="app-info">
+        <div class="container">
+            <div class="content">
+                <h1>Discover Weekly Backup</h1>
+
+                <h3>Hi {{ display_name }}</h3>
+
+                <p>You have successfully signed up for DiscoverSafe app which will save your Spotify Weekly Discover every Thursday!</p>
+            </div>
+            
+        </div>
+            
+    </div>
+
+    <div id="faq">
+        <div class="container">
+            <div class="content">
+                <h1>FAQ</h1>
+                <!-- TODO: GO THROUGH THIS ONE AGAIN BEFORE DEPLOY ON PYTHON ANYWHERE -->
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <p class="bold_text"><strong>Q:</strong>&nbsp;What is DiscoverSafe?</p>
+                        <p><strong>A:</strong>&nbsp;DiscoverSafe is a user-friendly app designed to automatically back up your Spotify Discover Weekly playlist. It ensures that you never lose your handpicked collection of new and exciting tracks, making it easy to revisit your favorite discoveries.</p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <p class="bold_text"><strong>Q:</strong>&nbsp;How does DiscoverSafe work?</p>
+                        <p><strong>A:</strong>&nbsp;DiscoverSafe seamlessly integrates with your Spotify account and periodically backs up your Discover Weekly playlist. It runs in the background, ensuring a hassle-free experience while safeguarding your favorite songs.</p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <p class="bold_text"><strong>Q:</strong>&nbsp;Is my data secure with DiscoverSafe?</p>
+                        <p><strong>A:</strong>&nbsp;Absolutely! DiscoverSafe takes data privacy seriously. Your Spotify account information and playlists are stored securely, and the app does not share your data with any third parties.</p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <p class="bold_text"><strong>Q:</strong>&nbsp;How do I turn off DiscoverSafe?</p>
+                        <p><strong>A:</strong>&nbsp;Go to your <a href="https://www.spotify.com/us/account/apps/">Spotify account settings</a>, find the apps tab, and then "revoke access" from DiscoverSafe. You will now no longer back up your DiscoverSafe playlist.</p>
+                    </div>
+                    
+                    <div class="center-grid-item grid-item">
+                        <p class="bold_text"><strong>Q:</strong>&nbsp;Why isn't there any DiscoverSafe playlist in my library?</p>
+                        <p><strong>A:</strong>&nbsp;If you're a new Spotify user, the app might need more time to gather enough data for Discover Weekly playlists. However, once DiscoverSafe is integrated, you won't need to worry about manually creating the playlist. Additionally, please note that during its development phase, the app has limited slots for users (up to 25 users only).</p>
+                    </div>
+                    
+                </div>
+                
+            </div>  
+        </div>
+
+    </div>
+
+
+    <div id="contact">
+        <div class="container">
+            <div class="content">
+                <h1>DiscoverSafe didn't work for you?</h1>
+                <p>Message<a href="https://www.instagram.com/itsfordinh/">@itsfordinh</a>, and I'll help you.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
