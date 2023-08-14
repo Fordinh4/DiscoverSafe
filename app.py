@@ -17,7 +17,7 @@ import smtplib
 import os
 from setting import Setting
 
-
+# Initialize the app Flask
 app = Flask(__name__, template_folder= "./templates", static_folder = './templates/static')
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
