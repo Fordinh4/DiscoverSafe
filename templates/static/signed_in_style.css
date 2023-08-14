@@ -186,6 +186,11 @@ button.learn-more:hover .button-text {
         padding-bottom: 27rem;
     }
 
+    #app-info h1, #app-info h3, #app-info p{
+        margin-top: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+
     .grid-container{
         display: grid;
         grid-template-columns: auto auto;
@@ -257,6 +262,11 @@ button.learn-more:hover .button-text {
     #app-info{
         padding: 12rem 10%;
         padding-bottom: 25rem;
+    }
+
+    #app-info h1, #app-info h3, #app-info p{
+        margin-top: 0.8rem;
+        margin-bottom: 0.8rem;
     }
 
     .grid-container {

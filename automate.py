@@ -86,11 +86,17 @@ def AddDiscoverWeekly(refresh_token):
 
         for playlist in CurrentPlaylists:
             if playlist["name"] == "Saved Discover Weekly":
+                # To change the name of the old saved playlist
+                print(f"Playlist's name has changed for {spotify.me()['email']}|")
+                spotify.playlist_change_details(playlist["id"], name="DiscoverSafe")
+                SavedDiscoverPlaylistId = playlist["id"]
+
+            elif playlist["name"] == "DiscoverSafe":
                 SavedDiscoverPlaylistId = playlist["id"]
 
         if not SavedDiscoverPlaylistId:
             # If the new playlist not found, create a new one
-            NewPlaylist = spotify.user_playlist_create(user_id,"Saved Discover Weekly", True)
+            NewPlaylist = spotify.user_playlist_create(user_id," DiscoverSafe", True)
             SavedDiscoverPlaylistId = NewPlaylist["id"]
 
         # get the tracks from the Discover Weekly playlist

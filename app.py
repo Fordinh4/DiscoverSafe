@@ -19,7 +19,6 @@ from setting import Setting
 
 
 app = Flask(__name__, template_folder= "./templates", static_folder = './templates/static')
-
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 
@@ -94,57 +93,6 @@ def index():
 def sign_out():
     session.pop("token_info", None)
     return redirect('/')
-
-# TODO: Might delete this route!
-@app.route("/discover_weekly")
-def SaveDiscoveryWeekly():
-    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = CreateSpotifyOauth(cache_handler)
-
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        return redirect('/')
-    
-    spotify = spotipy.Spotify(auth_manager= auth_manager)
-
-     # Searching for discover weekly 
-    SearchPlaylists = spotify.search("discover weekly", limit= 10, offset= 0, type= "playlist")["playlists"]["items"]
-    try:
-        for playlist in SearchPlaylists:
-            if playlist["name"] == "Discover Weekly":
-                DiscoverPlaylistId = playlist["id"]
-
-    except:
-        # If the user is still new to Spotify, it may take some weeks for the app to get enough info from user
-        return "Discover weekly not found! -> If you r a new users, please listen to more songs :)"
-
-    else:
-        # Create a new playlist to save all of Discover Weekly in one place! 
-        CurrentPlaylists = spotify.current_user_playlists()["items"]
-        user_id = spotify.current_user()["id"]
-        SavedDiscoverPlaylistId = None
-
-        for playlist in CurrentPlaylists:
-            if playlist["name"] == "Saved Discover Weekly":
-                SavedDiscoverPlaylistId = playlist["id"]
-        
-        if not SavedDiscoverPlaylistId:
-            # If the new playlist not found, create a new one
-            NewPlaylist = spotify.user_playlist_create(user_id,"Saved Discover Weekly", True)
-            SavedDiscoverPlaylistId = NewPlaylist["id"]
-
-        # get the tracks from the Discover Weekly playlist
-        discover_weekly_playlist = spotify.playlist_items(DiscoverPlaylistId)
-        song_uris = []
-        # song URI => The resource identifier of, for example, an artist, album or track.
-        for song in discover_weekly_playlist['items']:
-            song_uri= song['track']['uri']
-            song_uris.append(song_uri)
-        
-        # Add the tracks to the Saved Weekly playlist
-        spotify.user_playlist_add_tracks(user_id, SavedDiscoverPlaylistId, song_uris, None)
-
-        # Return a success message
-        return ('Discover Weekly songs added successfully!')
 
 # ================
 
