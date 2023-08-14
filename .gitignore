@@ -1,14 +1,9 @@
 
-.flask_session/e0e82309158e76b9d97cabf38d7efe8c
 .vscode/settings.json
-.flask_session/5bf302f1585d632fb92d7f8b5b519c5a
 DiscoverWeekly.py
-.flask_session/4c569168b42af77bd048d4fbe4601dec
-.flask_session/2029240f6d1128be89ddc32729463129
 .cache
 __pycache__/setting.cpython-39.pyc
-flask_session/2029240f6d1128be89ddc32729463129
-flask_session/e0e82309158e76b9d97cabf38d7efe8c
 setting.py
 tempCodeRunnerFile.py
 tempCodeRunnerFile.python
+flask_session/

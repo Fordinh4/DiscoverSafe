@@ -76,7 +76,7 @@ def AddDiscoverWeekly(refresh_token):
 
     if not flag:
         # If the user is still new to Spotify, it may take some weeks for the app to get enough info from user
-        print("Discover weekly not found! -> If you r a new users, please listen to more songs :)")
+        print(f"Hi {spotify.me()['display_name']} - {spotify.me()['email']}, your discover weekly playlist is not found! -> If you r a new users, please listen to more songs :)")
 
     else:
         # Create a new playlist to save all of Discover Weekly in one place!

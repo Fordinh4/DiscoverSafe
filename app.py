@@ -15,10 +15,11 @@ import smtplib
 
 # Other
 import os
-from .setting import Setting
+from setting import Setting
 
 
-app = Flask(__name__, template_folder= "templates")
+app = Flask(__name__, template_folder= "./templates", static_folder = './templates/static')
+
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 
@@ -81,13 +82,12 @@ def index():
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         # Step 1. Display sign in link when no token
         auth_url = auth_manager.get_authorize_url()
-        #TODO: Change this to another html for sign up for this app
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return render_template('sign_up.html', auth_url=auth_url)
 
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
 
-    return render_template('index.html', display_name=spotify.me()["display_name"])
+    return render_template('signed_in.html', display_name=spotify.me()["display_name"])
 
 
 @app.route('/sign_out')
@@ -95,7 +95,7 @@ def sign_out():
     session.pop("token_info", None)
     return redirect('/')
 
-
+# TODO: Might delete this route!
 @app.route("/discover_weekly")
 def SaveDiscoveryWeekly():
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)

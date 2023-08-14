@@ -1,0 +1,297 @@
+:root {
+    --color-primary: #00264a; 
+    --color-secondary: #82D1FF; 
+    --color-accent: #001F41;
+    --color-font: #fffbfc;
+    --font-size-base: 20px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--font-size-base);
+    color: var(--color-font);
+    background-color: var(--color-primary);
+    margin: 0;
+    padding: 0;
+}
+
+
+
+#app-info, #faq, #contact {
+    padding: 10%;
+    font-size: var(--font-size-base);
+}
+
+.content {
+    text-align: center;
+}
+
+
+.bold_text{
+    /* For the question in the faq or anywhere that like bold text */
+    font-weight: 700;
+}
+
+
+
+/* For the nav bar */
+.navbar {
+    background-color: var(--color-primary);
+    margin: auto 10%;
+    padding: 32px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 80px;
+    height: auto;
+
+}
+
+.links {
+    display: flex;
+    align-items: center;
+}
+
+.navbar a {
+    color: var(--color-secondary);
+    padding: 20px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.navbar a:hover{
+    text-decoration: underline;
+}
+
+
+
+/* For the button */
+button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    width: 12rem;
+    height: auto;
+}
+
+button.learn-more .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 2.5rem;
+    height: 1.5rem;
+    background: var(--color-secondary);
+    border-radius: 2.625rem;
+}
+
+button.learn-more .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: var(--color-secondary);
+}
+
+button.learn-more .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.45rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+}
+
+button.learn-more .circle .icon.arrow::before {
+    position: absolute;
+    content: '';
+    top: -0.35rem;
+    right: 0.05rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.2rem solid var(--color-primary);
+    border-right: 0.2rem solid var(--color-primary);
+    transform: rotate(45deg);
+}
+
+button.learn-more .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: -0.95rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0rem;
+    margin: 0 0 0 0.5rem;
+    color: var(--color-secondary);
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+button.learn-more:hover .circle {
+    width: 90%;
+}
+
+button.learn-more:hover .circle .icon.arrow {
+    background: var(--color-primary);
+    transform: translate(0.8rem, 0);
+}
+
+button.learn-more:hover .button-text {
+    color: var(--color-primary);
+}
+
+
+
+/* For FAQ */
+#faq { 
+    background-color: var(--color-accent)
+}
+
+#faq strong{/*For Q and A letter*/
+    color: var(--color-secondary);
+}
+
+.grid-item a{
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+
+
+
+/* Full screen */
+@media screen and (min-width: 800px) {
+
+
+    #app-info{
+        padding: 18rem 10%;
+        padding-bottom: 27rem;
+    }
+
+    .grid-container{
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 2rem;
+    }
+
+    .grid-item{
+        text-align:left;
+        margin-bottom: 20px;
+    }
+    .center-grid-item{
+        margin: auto 25%;
+        grid-column: span 2;
+        padding-left: 1%;
+    }
+}
+  
+/* Stack on top of each other */
+@media screen and (max-width: 800px) {
+
+    :root{
+        --font-size-base: 15px;
+    }
+
+    .image{
+        width: 50px;
+        height: auto;
+    }
+    .navbar a {
+        padding: 20px 10px;
+    }
+
+    /* For the button */
+    button{
+        width: 10rem;
+    }
+
+    button.learn-more .circle {
+        width: 1.8rem;
+        height: 1.3rem;
+
+    }
+
+    button.learn-more .circle .icon.arrow {
+        left: 0.125rem;
+        width: 1rem;
+        height: 0.125rem;
+    }
+
+    button.learn-more .circle .icon.arrow::before {
+
+        width: 0.525rem;
+        height: 0.525rem;
+        border-top: 0.18rem solid var(--color-primary);
+        border-right: 0.18rem solid var(--color-primary);
+    }
+
+
+    button.learn-more .button-text {
+        margin: 0 0 0 0.1rem;
+        top: -0.85rem;
+    }
+
+    button.learn-more:hover .circle {
+        width: 95%;
+    }
+
+
+    #app-info{
+        padding: 12rem 10%;
+        padding-bottom: 25rem;
+    }
+
+    .grid-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid-item {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .center-grid-item {
+        align-self: center;
+        margin: 0;
+    }
+}
+  
+
+
+/* For the contact section */
+#contact {
+    padding: 4% 10%;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+
+#contact h2 {
+    color: var(--color-primary);
+    font-weight: 800;
+}
+
+#contact a{
+    text-decoration: none;
+    color: var(--color-primary);
+}
